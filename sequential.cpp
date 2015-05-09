@@ -291,10 +291,26 @@ void calculate_weight(const Strand& a, const Strand& b, std::vector<ResultEdge>&
     if (best_value >= MINIMUM_WEIGHT){
         ResultEdge re;
         
-        // TODO: calculate the reverse alignment using aux_matrix !!!
-        re.alignment.push_back(std::pair<int, int>(1, 1));
-        re.alignment.push_back(std::pair<int, int>(2, 2));
-        re.alignment.push_back(std::pair<int, int>(3, 3));
+        int current_i = best_i;
+        int current_j = best_j;
+
+        while (current_i != 0 && current_j != 0){
+            switch (aux_matrix[current_i][current_j]){
+            case 1:
+                re.alignment.push_back(std::pair<int, int>(current_i, current_j));
+                current_i--;
+                current_j--;
+                break;
+            case 2:
+                re.alignment.push_back(std::pair<int, int>(-1, current_j));
+                current_j--;
+                break;
+            case 3:
+                re.alignment.push_back(std::pair<int, int>(current_i, -1));
+                current_i--;
+                break;
+            }
+        }
 
         std::reverse(re.alignment.begin(), re.alignment.end());
         re.first_id = a.get_id();
