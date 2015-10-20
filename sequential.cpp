@@ -192,22 +192,11 @@ void parse_input(std::vector<Strand>& strands){
             }
             strand = "";
 
-            // get id - it will be located between first two '|' characters.
+            // get id - it starts at line[3]
             bool getting_number = false;
             id_string = "";
-            for (unsigned int i = 0; i < line.length(); ++i){
-                if (line[i] == '|'){
-                    if (getting_number){
-                        break;
-                    }
-                    else{
-                        getting_number = true;
-                        continue;
-                    }
-                }
-                if (getting_number){
+            for (unsigned int i = 3; i < line.length(); ++i){
                     id_string += line[i];
-                }
             }
             id = std::stoi(id_string);
         }
